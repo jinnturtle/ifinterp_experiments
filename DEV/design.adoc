@@ -1,0 +1,48 @@
+= Design Document of Ifinterp
+
+== TODO
+* [ ] basic world (just a few rooms with descriptions)
+* [ ] movement (n, s, e, w)
+* [ ] look (around)
+
+* [ ] movement (ne, nw, se, sw)
+* [ ] movement (up, dn)
+* [ ] movement (enter, leave)
+
+* [ ] examine
+* [ ] take, put
+* [ ] take from, put into
+
+
+== QnA
+examine(thing) or thing.examine()?:: A: examine(thing) no need for the class to
+always carry and entire function, and if there is need for advanced handling we
+can return a callback that would contain the logic.
+
+common traits e.g. `description` as member or inserted into `traits` map?::
+* Inserted into map:
+** Pros:
+*** More "natural" as that's were all traits go.
+*** Can be easily overridden in constructor for special cases.
+** Notes:
+*** (Conjecture -- test) Clarity can be maintained via good coding practices.
+** Cons:
+*** (Conjecture -- test) Harder to see in object definition.
+*** Can be overridden in constructor.
+
+
+== Commands
+
+=== Look (Around)
+Describe the visible surroundings.
+
+Print the description of the current room, any area visible things (e.g. zone
+and global backdrops), and things visible in the room.
+
+==== Common Aliases
+Look around.
+
+
+=== Examine
+Give more details about an object, i.e. print description, contents (if
+container that is open or transparent), state (if device), etc.

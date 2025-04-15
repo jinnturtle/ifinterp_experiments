@@ -1,0 +1,19 @@
+@startuml
+
+skinparam backgroundColor #c0c0c0
+
+struct thing {
+        string desc
+        string short_desc
+        attrib[] attribs
+}
+
+struct room {
+        bool visited
+        exit[] exits
+}
+
+thing <|-- room
+
+
+@enduml
