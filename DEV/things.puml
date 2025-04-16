@@ -2,18 +2,23 @@
 
 skinparam backgroundColor #c0c0c0
 
-struct thing {
+class thing {
         string desc
         string short_desc
         attrib[] attribs
 }
 
-struct room {
+class container {
+        map<string, thing> contents
+}
+
+class room {
         bool visited
         exit[] exits
 }
 
-thing <|-- room
+thing <|-- container
+container <|-- room
 
 
 @enduml

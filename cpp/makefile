@@ -2,12 +2,10 @@ NAME = exe
 
 CXX_SRC =\
 	main.cpp \
-	dds_loader/dds_loader.cpp \
-	utils.cpp \
-	version.cpp
+	Object.cpp \
 
 C_SRC =\
-	timestamp.c
+#	timestamp.c
 
 CXX = g++
 LL = g++
@@ -18,10 +16,10 @@ CXX_FLAGS += -DPROGRAM_VERSION="$(shell git describe)"
 CC_FLAGS = -Wall -Wextra
 LD_FLAGS =
 DBG_FLAGS = -ggdb -DDEBUG=8
-REL_FLAGS = -O2
+REL_FLAGS = -O3
 INCLUDE =
 LIBS := -lstdc++
-LIBS += $(shell pkg-config --libs gl glew glfw3)
+#LIBS += $(shell pkg-config --libs)
 SRC_DIR = src
 OBJ_DIR = obj
 
@@ -32,7 +30,7 @@ OBJ = $(_OBJ:%=$(OBJ_DIR)/%)
 DEPS := $(OBJ:%.o=%.d)
 
 TAGS_FLAGS := --fields=* --extras=* --extras-c++=* -R
-TAGS_FLAGS += $(SRC_DIR) /usr/include/{GL,GLFW,glm}/*
+TAGS_FLAGS += $(SRC_DIR)
 
 all: CXX_FLAGS += $(DBG_FLAGS)
 all: CC_FLAGS += $(DBG_FLAGS)
