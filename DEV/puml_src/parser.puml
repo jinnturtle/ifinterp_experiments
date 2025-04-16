@@ -1,0 +1,37 @@
+@startuml
+
+!include ./uml_skinparams
+
+start;
+
+:expand aliases;
+
+partition "things-first approach" {
+        :parse "things";
+        while (n < things.size(); ++n)
+                :compare name;
+                note right: start from longest
+                if (exact match) then
+                        :save match {pos, ref};
+                endif
+        endwhile
+        :sort found things by pos;
+        :find action;
+        :apply action;
+        end;
+}
+
+partition "actions-first approach" {
+        :match first word;
+        while (multiword_action_candidates > 0)
+                :find next action word;
+                :cut in-between as object name;
+        endwhile
+
+        :cut remainder as object name;
+        :find objects from cut substrings;
+        :apply action;
+        end;
+}
+
+@enduml

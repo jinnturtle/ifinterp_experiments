@@ -1,11 +1,11 @@
-NAME = exe
+NAME = ifinterp
 
 CXX_SRC =\
 	main.cpp \
-	Object.cpp \
+	version.cpp
 
 C_SRC =\
-#	timestamp.c
+	timestamp.c
 
 CXX = g++
 LL = g++

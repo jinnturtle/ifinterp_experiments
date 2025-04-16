@@ -1,7 +1,12 @@
+#compiled binaries and temp files
+obj/*.d
+obj/*.o
+ifinterp
+
 #editor temporary files (e.g. swapfiles, backups, etc)
 ~*
 *.swp
 
-#compiled binaries
-*.o
-ifinterp
+# editor support
+TAGS
+tags
