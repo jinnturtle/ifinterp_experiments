@@ -38,7 +38,7 @@ all: build
 
 release: CXX_FLAGS += $(REL_FLAGS)
 release: CC_FLAGS += $(REL_FLAGS)
-release: build
+release: clean build
 	@strip $(NAME)
 
 .PHONY: build

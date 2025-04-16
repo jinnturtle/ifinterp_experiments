@@ -8,7 +8,7 @@ int main()
 {
     constexpr char program_name[] {"Ifinterp"};
     std::cout
-        << "*** " << program_name << " v" << version_str() << " ***"
+        << "*** " << program_name << " " << version_str() << " ***"
         << std::endl;
     std::cout << "Hello IF world!" << std::endl;
 
