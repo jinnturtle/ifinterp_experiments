@@ -2,23 +2,36 @@
 
 skinparam backgroundColor #c0c0c0
 
-class thing {
-        string desc
-        string short_desc
-        attrib[] attribs
+class Thing {
+        string name
+        string description
+        attrib[] attributes
 }
 
-class container {
+class Container {
         map<string, thing> contents
 }
 
-class room {
+class Room {
         bool visited
         exit[] exits
 }
 
-thing <|-- container
-container <|-- room
+Thing <|-- Container
+Thing *-- Container
+Container <|-- Room
+Room *-- Exit
+
+class World {
+        map<string, Room*> rooms
+
+}
+
+World *-- Room
+
+class Exit {
+        WIP
+}
 
 
 @enduml

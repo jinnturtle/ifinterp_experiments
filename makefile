@@ -2,7 +2,8 @@ NAME = ifinterp
 
 CXX_SRC =\
 	main.cpp \
-	version.cpp
+	version.cpp \
+#	Thing.cpp
 
 C_SRC =\
 	timestamp.c
