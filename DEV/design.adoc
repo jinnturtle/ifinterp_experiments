@@ -31,7 +31,65 @@ common traits e.g. `description` as member or inserted into `traits` map?::
 *** Can be overridden in constructor.
 
 
+== Functionality
+
+=== Core
+
+* [ ] Rooms.
+* [ ] Connections.
+** [ ] Two way.
+** [ ] One way (e.g. jump from ledge, supernatural portal).
+
+==== 1
+* [ ] Movement (n, s, e, w).
+* [ ] Movement (ne, nw, se, sw).
+* [ ] Movement (up, dn).
+* [ ] Movement (enter, leave).
+
+* [ ] Look (around).
+* [ ] Examine.
+
+==== 2
+* [ ] Things.
+
+* [ ] Take, put.
+
+==== 3
+* [ ] Containers.
+
+* [ ] Take from, put into.
+
+
+=== Simple Mechanisms
+* Doors.
+* Locks and keys.
+
+
+=== Advanced Mechanisms
+* Combination locks (e.g. safes, coded locks, code and/or keycard panels).
+
+
+=== Senses
+* [ ] Touch.
+* [ ] Hear.
+* [ ] Smell.
+
+
+=== Vehicles
+* [ ] Riding (e.g. horse, bicycle, motorbike).
+* [ ] Horse-drawn carriage.
+* [ ] Elevator (moving room).
+* [ ] Train (moving zone).
+* [ ] Motor car (drivable room, key, fuel).
+
+
+=== Passage of time
+* Actions (may) take time.
+* Waiting, resting, sleeping.
+
+
 == Commands
+Here commands are described in more detail.
 
 === Look (Around)
 Describe the visible surroundings.
