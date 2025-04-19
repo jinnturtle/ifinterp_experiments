@@ -10,3 +10,6 @@ ifinterp
 # editor support
 TAGS
 tags
+
+# generated docs
+docs/doxygen

@@ -60,6 +60,10 @@ $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c makefile
 $(OBJ_DIR):
 	mkdir -p $@
 
+.PHONY: docs
+docs:
+	doxygen docs/Doxyfile
+
 .PHONY: clean
 clean:
 	@rm -vrf $(OBJ_DIR)
