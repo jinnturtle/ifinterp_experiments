@@ -17,9 +17,7 @@ class Thing {
 public:
     virtual ~Thing() = default;
 
-    /* TODO - think how to avoid duplication of data as name is also usually the
-       key in associative containers */
-    std::string name;
+    const std::string* name;
     std::string description;
 };
 
@@ -37,11 +35,9 @@ public:
     std::map<std::string, Room*> exits;
 };
 
-
 struct Player final {
     Room* location;
 };
-
 
 class World final {
 public:
@@ -53,29 +49,39 @@ public:
     Player player;
 
 private:
+    Room* new_room(const std::string& name);
+
+    void destroy_rooms();
+
     std::map<std::string, Room*> rooms;
     std::map<std::string, Action*> actions;
 };
 
 World::~World() {
-    for (auto i {this->rooms.begin()}; i != this->rooms.end(); ++i) {
-        delete(i->second);
+    this->destroy_rooms();
+}
+
+Room* World::new_room(const std::string& name) {
+    if (this->rooms.find(name) != this->rooms.end()) {
+        logs::err("room with this name already exists (", name ,")");
+        return nullptr;
     }
+
+    Room* buf {new Room};
+    auto res = this->rooms.insert(std::pair<std::string, Room*>{name, buf});
+    buf->name = &res.first->first;
+
+    return buf;
 }
 
 int World::create()
 {
-    // TODO temporary duplication of data, will change with Room revision
     Room* buf;
-    buf = new Room;
-    buf->name = "al'Thor Farm";
+    if (buf = this->new_room("al'Thor Farm"); buf == nullptr) { return 1; }
     buf->description = "A farm belonging to the al'Thor family.";
-    this->rooms[buf->name] = buf;
 
-    buf = new Room;
-    buf->name = "Emond's Road 1";
+    if (buf = this->new_room("Emond's Road 1"); buf == nullptr) { return 1; }
     buf->description = "A road connecting the western farms to Emond's Field.";
-    this->rooms[buf->name] = buf;
 
     return 0;
 }
@@ -86,6 +92,13 @@ Room* World::find_room(const std::string& name)
     if (res != this->rooms.end()) { return res->second; }
 
     return nullptr;
+}
+
+void World::destroy_rooms()
+{
+    for (auto i {this->rooms.begin()}; i != this->rooms.end(); ++i) {
+        delete(i->second);
+    }
 }
 
 #endif // SRC_WORLD_HPP_

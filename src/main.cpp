@@ -32,7 +32,7 @@ int main()
 
 int begin_play(World* world)
 {
-    std::cout << "\n[" << world->player.location->name << "]" << std::endl;
+    std::cout << "\n[" << *world->player.location->name << "]" << std::endl;
     std::cout
         << "\n> " << "just kidding, the prompt is not implemented yet"
         << std::endl;
