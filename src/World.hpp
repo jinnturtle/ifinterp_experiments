@@ -11,7 +11,7 @@
 #include "Actions.hpp"
 #include "logs.hpp"
 
-// TODO reveiw classes (where needed: add constructros, virtualise, etc.)
+// TODO reveiw classes (privatise, add constructors, virtualise, etc.)
 
 class Thing {
 public:
@@ -28,16 +28,86 @@ public:
     std::map<std::string, Thing*> contents;
 };
 
+class Room;
+
+struct Room_link {
+    Room* target;
+};
+
 class Room : public Container {
 public:
     virtual ~Room() = default;
 
-    std::map<std::string, Room*> exits;
+    int new_link(const std::string& name, Room* to, bool symmetric = true);
+    void dump();
+
+    //private:
+    std::map<std::string, Room_link> links;
 };
 
-struct Player final {
+int Room::new_link(const std::string& name, Room* to, bool symmetric)
+{
+    if (to == nullptr) {
+        logs::err("attempted to link room '", *this->name, "' to null: ", name);
+        return 1;
+    }
+
+    {
+        auto found = this->links.find(name);
+        if (found != this->links.end()) {
+            if (found->second.target == to) { return 0; } // already linked
+        }
+    }
+
+    this->links[name] = Room_link {.target = to};
+
+    if (symmetric) {
+        // TODO this map should live somewhere permanent;
+        std::map<std::string, std::string> opposites {
+            std::pair<std::string, std::string>("n", "s"),
+            std::pair<std::string, std::string>("s", "n"),
+            std::pair<std::string, std::string>("e", "w"),
+            std::pair<std::string, std::string>("w", "e"),
+            std::pair<std::string, std::string>("up", "down"),
+            std::pair<std::string, std::string>("down", "up"),
+        };
+        auto other_direction = opposites.find(name);
+
+        if (other_direction != opposites.end()) {
+            to->new_link(other_direction->second, this);
+        } else {
+            logs::err("no opposite direction found for '", name, "'");
+        }
+    }
+
+    return 0;
+}
+
+void Room::dump()
+{
+    for (auto i {this->links.begin()}; i != this->links.end(); ++i) {
+        logs::info("R.L: ", i->first, " -> ", *i->second.target->name);
+    }
+}
+
+class Player final {
+public:
+    void go(const std::string& direction);
+
     Room* location;
 };
+
+void Player::go(const std::string& direction)
+{
+    auto found = this->location->links.find(direction);
+    if (found != this->location->links.end()) {
+        this->location = found->second.target;
+    } else {
+        std::cout << "\nYou don't see a way that would lead "
+        << direction << "."
+        << std::endl;
+    }
+}
 
 class World final {
 public:
@@ -45,6 +115,7 @@ public:
 
     int create();
     Room* find_room(const std::string& name);
+    void dump();
 
     Player player;
 
@@ -82,6 +153,7 @@ int World::create()
 
     if (buf = this->new_room("Emond's Road 1"); buf == nullptr) { return 1; }
     buf->description = "A road connecting the western farms to Emond's Field.";
+    buf->new_link("n", this->find_room("al'Thor Farm"));
 
     return 0;
 }
@@ -92,6 +164,15 @@ Room* World::find_room(const std::string& name)
     if (res != this->rooms.end()) { return res->second; }
 
     return nullptr;
+}
+
+void World::dump()
+{
+    std::cout << "ROOMS" << std::endl;
+    for (auto i {this->rooms.begin()}; i != this->rooms.end(); ++i) {
+        logs::info("R: ", i->first);
+        if (i->second != nullptr) { i->second->dump(); }
+    }
 }
 
 void World::destroy_rooms()

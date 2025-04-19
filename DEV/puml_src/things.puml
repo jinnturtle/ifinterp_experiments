@@ -14,13 +14,13 @@ class Container {
 
 class Room {
         bool visited
-        exit[] exits
+        map<string, link*> exits
 }
 
 Thing <|-- Container
 Thing *-- Container
 Container <|-- Room
-Room *-- Exit
+Room *-- Room_link
 
 class World {
         map<string, Room*> rooms
@@ -29,9 +29,9 @@ class World {
 
 World *-- Room
 
-class Exit {
-        WIP
+class Room_link {
+        Room* destination
+        Door* door
 }
-
 
 @enduml

@@ -1,8 +1,8 @@
 = Design Document of Ifinterp
 
 == TODO
-* [-] basic world (just a few rooms with descriptions)
-* [ ] connections between the rooms
+* [x] basic world (just a few rooms with descriptions)
+* [x] connections between the rooms
 * [ ] movement (n, s, e, w)
 * [ ] look (around)
 
@@ -16,11 +16,26 @@
 
 
 == Next Time
-* Room connections.
-* Going between connected rooms.
+* Go <direction> command.
 * Look (around) command.
+* TODOs
+* Document and comment the source.
+* Aliases (e.g. n for go north (or the other way around? Haha.)
 
 == QnA
+Should _Room_ obj contain _new*_ (thing, link, etc) methods?::
+* Or should it be _World_ or perhaps specialised factory altogether?
+
+How to handle "can't do"?::
+* Should the function responsible print the refusal, or caller?
+* Should be easy to customise rejection messages (in general and per-case), how
+  to implement it so?
+
+Multiple-inheritance VS composition::
+* "Things" will be difficult to represent in a nice class single-inheritance
+  tree. E.g. a motorbike is likely have traits like _self-propelled_,
+  _container_, _vehicle_. Should we use multiple-inheritance or composition?
+
 How should doors (locked and otherwise) and hidden exits work?::
 * Exit as an object that can be linked to a door?
 * Exit can have a "hidden" flag or trait?
