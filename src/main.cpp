@@ -18,7 +18,7 @@ int main()
 
     World world;
     std::cout << "Creating world... ";
-    if(world.create() == 0) { std::cout << "done"; }
+    if(world.create() == 0) { std::cout << "done."; }
     else { std:: cout << "ERROR"; }
     std::cout << std::endl;
 
@@ -40,9 +40,11 @@ void tmp_look_around(Player* player) {
 
 int begin_play(World* world)
 {
+#ifdef DEBUG
     std::cout << "\n*** DUMP ***" << std::endl;
     world->dump();
     std::cout << "\n*** END DUMP ***" << std::endl;
+#endif //DEBUG
 
     Player* player {&world->player};
     tmp_look_around(player);
