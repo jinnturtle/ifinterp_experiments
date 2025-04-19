@@ -16,11 +16,6 @@
 
 
 == Next Time
-* Find a way to have thing.name as key without duplicating data.
-** Idea 1: Point to the key, map should not invalidate ptr until deleted.
-* Wrap room creation in something that would report errors; maybe
-  `World.new_room()` as `World` will hold the `Room` data and take care of
-  memory anyway.
 * Room connections.
 * Going between connected rooms.
 * Look (around) command.
@@ -77,6 +72,9 @@ can return a callback that would contain the logic.
 
 * [ ] Take from, put into.
 
+==== 4
+* [ ] Light and darkness.
+
 
 === Simple Mechanisms
 * Doors.
@@ -104,6 +102,10 @@ can return a callback that would contain the logic.
 === Passage of time
 * Actions (may) take time.
 * Waiting, resting, sleeping.
+
+
+== Tests
+* [ ] Duplicate room names should not be allowed.
 
 
 == Commands
