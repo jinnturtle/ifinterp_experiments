@@ -92,36 +92,25 @@ void Room::dump()
 
 class Player final {
 public:
-    void go(const std::string& direction);
-
     Room* location;
 };
-
-void Player::go(const std::string& direction)
-{
-    auto found = this->location->links.find(direction);
-    if (found != this->location->links.end()) {
-        this->location = found->second.target;
-    } else {
-        std::cout << "\nYou don't see a way that would lead "
-        << direction << "."
-        << std::endl;
-    }
-}
 
 class World final {
 public:
     ~World();
 
+    bool add_action(const std::string& name, Action* action);
     int create();
-    Room* find_room(const std::string& name);
     void dump();
+    Room* find_room(const std::string& name);
+    Action* find_action (const std::string& name);
 
     Player player;
 
 private:
     Room* new_room(const std::string& name);
 
+    void destroy_actions();
     void destroy_rooms();
 
     std::map<std::string, Room*> rooms;
@@ -129,6 +118,7 @@ private:
 };
 
 World::~World() {
+    this->destroy_actions();
     this->destroy_rooms();
 }
 
@@ -145,6 +135,12 @@ Room* World::new_room(const std::string& name) {
     return buf;
 }
 
+bool World::add_action(const std::string& name, Action* action)
+{
+    std::pair<std::string, Action*> buf {name, action};
+    return this->actions.insert(std::move(buf)).second;
+}
+
 int World::create()
 {
     Room* buf;
@@ -158,14 +154,6 @@ int World::create()
     return 0;
 }
 
-Room* World::find_room(const std::string& name)
-{
-    auto res = this->rooms.find(name);
-    if (res != this->rooms.end()) { return res->second; }
-
-    return nullptr;
-}
-
 void World::dump()
 {
     std::cout << "ROOMS" << std::endl;
@@ -175,11 +163,36 @@ void World::dump()
     }
 }
 
+
+Room* World::find_room(const std::string& name)
+{
+    auto res = this->rooms.find(name);
+    if (res != this->rooms.end()) { return res->second; }
+
+    return nullptr;
+}
+
+Action* World::find_action(const std::string& name) {
+    auto res = this->actions.find(name);
+    if (res != this->actions.end()) { return res->second; }
+
+    return nullptr;
+}
+
+void World::destroy_actions()
+{
+    for (auto i {this->actions.begin()}; i != this->actions.end(); ++i) {
+        delete(i->second);
+    }
+    this->actions.clear();
+}
+
 void World::destroy_rooms()
 {
     for (auto i {this->rooms.begin()}; i != this->rooms.end(); ++i) {
         delete(i->second);
     }
+    this->rooms.clear();
 }
 
 #endif // SRC_WORLD_HPP_

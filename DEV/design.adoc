@@ -3,7 +3,7 @@
 == TODO
 * [x] basic world (just a few rooms with descriptions)
 * [x] connections between the rooms
-* [ ] movement (n, s, e, w)
+* [x] movement (n, s, e, w)
 * [ ] look (around)
 
 * [ ] movement (ne, nw, se, sw)
@@ -16,15 +16,26 @@
 
 
 == Next Time
-* Go <direction> command.
 * Look (around) command.
 * TODOs
 * Document and comment the source.
 * Aliases (e.g. n for go north (or the other way around? Haha.)
 
 == QnA
+How will action design allow for conditional overrides?::
+E.g. instead of _going_ to a direction, do something instead if the player is
+carrying a certain item and, etc.
+* A: Idea 1: _World_ and every _thing_ which can be entered (room, region,
+  vehicle, etc) has a container of _actions_ (probably a tree or hash-table).
+  When action is parsed, check for a matching action starting in the current
+  location ascending the hierarchy up to _World_ level, so local overrides would
+  be evaluated before regional and global ones.
+
 Should _Room_ obj contain _new*_ (thing, link, etc) methods?::
-* Or should it be _World_ or perhaps specialised factory altogether?
+Or should it be _World_ or perhaps specialised factory altogether?
+* A: I'm leaning towards _World_, so you create a new _World_ and through it,
+  create the "world" e.g. `world.new_room("Epic Location")`,
+  `world.new_link(room_1, room_2)`.
 
 How to handle "can't do"?::
 * Should the function responsible print the refusal, or caller?
@@ -33,7 +44,7 @@ How to handle "can't do"?::
 
 Multiple-inheritance VS composition::
 * "Things" will be difficult to represent in a nice class single-inheritance
-  tree. E.g. a motorbike is likely have traits like _self-propelled_,
+  tree. E.g. a motorbike is to likely have traits like _self-propelled_,
   _container_, _vehicle_. Should we use multiple-inheritance or composition?
 
 How should doors (locked and otherwise) and hidden exits work?::

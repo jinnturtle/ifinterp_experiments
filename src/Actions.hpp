@@ -2,10 +2,11 @@
 #define SRC_ACTIONS_HPP_
 
 struct Action {
+    // TODO is out/in cout needed? Should it be?
     unsigned input_n;
     unsigned output_n;
 
-    void (*f)(void*);
+    void (*f)(void**);
 };
 
 #endif // SRC_ACTIONS_HPP_
